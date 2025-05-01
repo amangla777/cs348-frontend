@@ -1,23 +1,29 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import EmployeeForm from './components/EmployeeForm';
+import EmployeeList from './components/EmployeeList';
+import EmployeeReport from './components/EmployeeReport';
 import './App.css';
 
 function App() {
+  const [refresh, setRefresh] = useState(false);
+  const [editing, setEditing] = useState(null);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>📋 Company Management System</h1>
+      <EmployeeForm
+        onAdd={() => setRefresh(!refresh)}
+        onUpdate={() => {
+          setRefresh(!refresh);
+          setEditing(null);
+        }}
+        editingEmployee={editing}
+      />
+      <EmployeeList
+        onEdit={emp => setEditing(emp)}
+        refresh={refresh}
+      />
+      <EmployeeReport />
     </div>
   );
 }
