@@ -9,13 +9,13 @@ const EmployeeList = ({ onEdit, refresh }) => {
   }, [refresh]);
 
   const fetchEmployees = () => {
-    axios.get("https://cs348-backend-0kqe.onrender.com/api/employees")
+    axios.get(`${process.env.REACT_APP_API}/api/employees`)
       .then(res => setEmployees(res.data))
       .catch(err => console.error(err));
   };
 
   const deleteEmployee = id => {
-    axios.delete(`https://cs348-backend-0kqe.onrender.com/api/employees/${id}`)
+    axios.delete(`${process.env.REACT_APP_API}/api/employees/${id}`)
       .then(() => fetchEmployees())
       .catch(err => console.error(err));
   };

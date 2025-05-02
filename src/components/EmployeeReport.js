@@ -7,13 +7,13 @@ const EmployeeReport = () => {
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    axios.get("https://cs348-backend-0kqe.onrender.com/api/employees")
+    axios.get(`${process.env.REACT_APP_API}/api/employees`)
       .then(res => setDepartments(res.data))
       .catch(err => console.error(err));
   }, []);
 
   const generateReport = () => {
-    axios.get("https://cs348-backend-0kqe.onrender.com/api/employees")
+    axios.get(`${process.env.REACT_APP_API}/api/employees`)
       .then(res => {
         const filtered = res.data.filter(emp => emp.department_id?._id === selectedDept);
         setEmployees(filtered);

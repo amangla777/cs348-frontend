@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const EmployeeForm = ({ onAdd, editingEmployee, onUpdate }) => {
+const EmployeeForm = ({ onAdd, editingEmployee, onUpdate, refresh }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -11,10 +11,10 @@ const EmployeeForm = ({ onAdd, editingEmployee, onUpdate }) => {
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
-    axios.get("https://cs348-backend-0kqe.onrender.com/api/employees")
-      .then(res => setDepartments(res.data))
-      .catch(err => console.error(err));
-  }, []);
+    axios.get(`${process.env.REACT_APP_API}/api/departments`)
+       .then(res => setDepartments(res.data))
+       .catch(err => console.error('Dept fetch error:', err));
+   }, [refresh]);
 
   useEffect(() => {
     if (editingEmployee) {
@@ -31,13 +31,13 @@ const EmployeeForm = ({ onAdd, editingEmployee, onUpdate }) => {
   const handleSubmit = e => {
     e.preventDefault();
     if (editingEmployee) {
-      axios.put(`https://cs348-backend-0kqe.onrender.com/api/employees/${editingEmployee._id}`, formData)
+      axios.put(`${process.env.REACT_APP_API}/api/employees/${editingEmployee._id}`, formData)
         .then(res => {
           onUpdate(res.data);
           setFormData({ name: '', email: '', position: '', department_id: '' });
         });
     } else {
-      axios.post("https://cs348-backend-0kqe.onrender.com/api/employees", formData)
+      axios.post(`${process.env.REACT_APP_API}/api/employees`, formData)
         .then(res => {
           onAdd(res.data);
           setFormData({ name: '', email: '', position: '', department_id: '' });
